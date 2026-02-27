@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BuildWise 3D Planner</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+<h2>🏗 BuildWise 3D Structural Planner</h2>
+
+<div class="card">
+  <label>Land Area (Acres)</label>
+  <input type="number" id="area" value="0.2" />
+
+  <label>Floors</label>
+  <input type="number" id="floors" value="4" />
+
+  <label>Total Rooms</label>
+  <input type="number" id="rooms" value="6" />
+
+  <button onclick="generateBuilding()">Generate Structure</button>
+  <p id="msg"></p>
+</div>
+
+<div id="viewer"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
