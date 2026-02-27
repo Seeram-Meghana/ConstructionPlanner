@@ -5,6 +5,10 @@ body {
   text-align: center;
 }
 
+h2 {
+  margin-top: 10px;
+}
+
 .card {
   background: white;
   padding: 20px;
@@ -25,7 +29,11 @@ button {
   color: white;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
+}
+
+button:hover {
+  background: #1b5e20;
 }
 
 #viewer {
