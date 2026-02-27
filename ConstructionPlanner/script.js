@@ -26,7 +26,6 @@ function init() {
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
 
-  // lighting
   const dirLight = new THREE.DirectionalLight(0xffffff, 1);
   dirLight.position.set(40, 60, 40);
   scene.add(dirLight);
@@ -34,7 +33,6 @@ function init() {
   const amb = new THREE.AmbientLight(0x888888);
   scene.add(amb);
 
-  // ground
   const groundGeo = new THREE.PlaneGeometry(120, 120);
   const groundMat = new THREE.MeshStandardMaterial({ color: 0xe0e0e0 });
   const ground = new THREE.Mesh(groundGeo, groundMat);
@@ -68,11 +66,10 @@ function generateBuilding() {
 
     createFloor(baseY, width, depth);
     createRooms(baseY + 0.1);
-    createBalcony(baseY + 0.2, width); // ⭐ balcony added
+    createBalcony(baseY + 0.2, width);
   }
 
   createRoof(floors * floorHeight, width, depth);
-
   scene.add(building);
 }
 
@@ -98,13 +95,30 @@ function createRoof(y, w, d) {
 
 // ================= ROOMS =================
 function createRooms(baseY) {
-  createRoom({ x: -4, z: 0, w: 8, d: 6, h: 3, color: 0x81d4fa, y: baseY });
-  createRoom({ x: 5, z: -3, w: 6, d: 5, h: 3, color: 0xf8bbd0, y: baseY });
-  createRoom({ x: 5, z: 4, w: 5, d: 4, h: 3, color: 0xfff59d, y: baseY });
+  createRoom({
+    name: "Living Room",
+    x: -4, z: 0, w: 8, d: 6, h: 3,
+    color: 0x81d4fa,
+    y: baseY
+  });
+
+  createRoom({
+    name: "Bedroom",
+    x: 5, z: -3, w: 6, d: 5, h: 3,
+    color: 0xf8bbd0,
+    y: baseY
+  });
+
+  createRoom({
+    name: "Kitchen",
+    x: 5, z: 4, w: 5, d: 4, h: 3,
+    color: 0xfff59d,
+    y: baseY
+  });
 }
 
 // ================= ROOM =================
-function createRoom({ x, y, z, w, d, h, color }) {
+function createRoom({ name, x, y, z, w, d, h, color }) {
   const material = new THREE.MeshStandardMaterial({
     color,
     transparent: true,
@@ -115,6 +129,7 @@ function createRoom({ x, y, z, w, d, h, color }) {
   room.position.set(x, y + h / 2, z);
   building.add(room);
 
+  // edges
   const edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(w, h, d));
   const line = new THREE.LineSegments(
     edges,
@@ -122,6 +137,32 @@ function createRoom({ x, y, z, w, d, h, color }) {
   );
   line.position.copy(room.position);
   building.add(line);
+
+  // ⭐ TEXT LABEL
+  const sprite = createTextLabel(name);
+  sprite.position.set(x, y + h + 0.3, z);
+  building.add(sprite);
+}
+
+// ================= TEXT LABEL =================
+function createTextLabel(message) {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+
+  canvas.width = 256;
+  canvas.height = 128;
+
+  context.fillStyle = "black";
+  context.font = "24px Arial";
+  context.textAlign = "center";
+  context.fillText(message, canvas.width / 2, canvas.height / 2);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  const material = new THREE.SpriteMaterial({ map: texture });
+  const sprite = new THREE.Sprite(material);
+
+  sprite.scale.set(4, 2, 1);
+  return sprite;
 }
 
 // ================= BALCONY =================
@@ -161,7 +202,7 @@ function animate() {
   requestAnimationFrame(animate);
 
   if (building && autoRotate) {
-    building.rotation.y += 0.004; // full 360 continuous
+    building.rotation.y += 0.004;
   }
 
   controls.update();
