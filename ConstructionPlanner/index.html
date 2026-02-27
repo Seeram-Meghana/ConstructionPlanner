@@ -1,36 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>BuildWise 3D Planner</title>
-  <link rel="stylesheet" href="style.css" />
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/OrbitControls.js"></script>
+<meta charset="UTF-8">
+<title>BuildWise</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="landing-body">
 
-<h2>🏗 BuildWise 3D Structural Planner</h2>
+<div class="landing-container">
+    <h1 class="logo">BUILD<span>WISE</span></h1>
+    <p class="tagline">Smart 3D Structural Planning System</p>
 
-<div class="card">
-  <label>Land Area (Acres)</label>
-  <input type="number" id="area" value="0.2" step="0.01" />
-
-  <label>Floors</label>
-  <input type="number" id="floors" value="1" />
-
-  <label>Number of Bedrooms</label>
-  <input type="number" id="bedrooms" value="2" />
-
-  <button onclick="generateBuilding()">Generate Structure</button>
-  <button onclick="toggleRotation()">Toggle Rotation</button>
-
-  <p id="msg"></p>
+    <div class="role-buttons">
+        <button onclick="goToApp()">🏗 I am a Builder</button>
+        <button onclick="goToApp()">🏠 I am a Customer</button>
+    </div>
 </div>
 
-<div id="viewer"></div>
+<script>
+function goToApp(){
+    window.location.href = "app.html";
+}
+</script>
 
-<script src="script.js"></script>
 </body>
 </html>
